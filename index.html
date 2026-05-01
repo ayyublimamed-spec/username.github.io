@@ -6,11 +6,7 @@
 <title>MY BRAND</title>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
 
 body{
 font-family:Arial,sans-serif;
@@ -18,6 +14,7 @@ background:linear-gradient(135deg,#4facfe,#00f2fe);
 color:white;
 text-align:center;
 transition:0.4s;
+overflow-x:hidden;
 }
 
 .dark{
@@ -25,39 +22,17 @@ background:#111;
 }
 
 .container{
-padding:25px 18px;
-max-width:500px;
+max-width:520px;
 margin:auto;
+padding:25px 18px;
+animation:fadeIn 1.5s;
 }
 
 .logo{
 font-size:38px;
 font-weight:bold;
-margin-bottom:10px;
-}
-
-.subtitle{
-font-size:18px;
-margin-bottom:25px;
-opacity:0.9;
-}
-
-.btn{
-display:block;
-width:100%;
-margin:12px auto;
-padding:18px;
-font-size:22px;
-font-weight:bold;
-text-decoration:none;
-color:white;
-background:rgba(255,255,255,0.18);
-border-radius:16px;
-transition:0.3s;
-}
-
-.btn:hover{
-transform:scale(1.03);
+margin-bottom:15px;
+animation:slideDown 1.2s;
 }
 
 .card{
@@ -65,6 +40,29 @@ background:rgba(255,255,255,0.18);
 padding:18px;
 border-radius:16px;
 margin:15px 0;
+animation:up 1s;
+}
+
+.btn,a{
+display:block;
+width:100%;
+margin:10px auto;
+padding:16px;
+font-size:20px;
+font-weight:bold;
+text-decoration:none;
+color:white;
+background:rgba(255,255,255,0.18);
+border:none;
+border-radius:14px;
+cursor:pointer;
+transition:0.3s;
+animation:up 1.2s;
+}
+
+.btn:hover,a:hover{
+transform:scale(1.04);
+background:rgba(255,255,255,0.28);
 }
 
 input{
@@ -73,16 +71,6 @@ padding:14px;
 margin-top:10px;
 border:none;
 border-radius:10px;
-font-size:16px;
-}
-
-.smallbtn{
-margin-top:12px;
-padding:12px 18px;
-border:none;
-border-radius:10px;
-font-size:16px;
-cursor:pointer;
 }
 
 .comment{
@@ -91,12 +79,37 @@ padding:10px;
 margin-top:10px;
 border-radius:10px;
 text-align:left;
+animation:fadeIn 0.6s;
 }
 
-footer{
-margin:25px 0;
-font-size:16px;
-opacity:0.9;
+img{
+width:90px;
+height:90px;
+border-radius:50%;
+object-fit:cover;
+margin-top:10px;
+animation:pulse 2s infinite;
+}
+
+@keyframes fadeIn{
+from{opacity:0;}
+to{opacity:1;}
+}
+
+@keyframes slideDown{
+from{transform:translateY(-40px);opacity:0;}
+to{transform:translateY(0);opacity:1;}
+}
+
+@keyframes up{
+from{transform:translateY(30px);opacity:0;}
+to{transform:translateY(0);opacity:1;}
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.08);}
+100%{transform:scale(1);}
 }
 </style>
 </head>
@@ -106,75 +119,110 @@ opacity:0.9;
 <div class="container">
 
 <div class="logo">🚀 MY BRAND</div>
-<div class="subtitle">Современный личный сайт</div>
 
-<a href="study.html" class="btn">📚 Учёба</a>
-<a href="tips.html" class="btn">💡 Советы</a>
-<a href="life.html" class="btn">🔥 Лайфхаки</a>
+<a href="study.html">📚 Учёба</a>
+<a href="tips.html">💡 Советы</a>
+<a href="life.html">🔥 Лайфхаки</a>
 
 <div class="card">
-👤 Личный кабинет  
+👤 Профиль  
 <p id="user">Гость</p>
 <input type="text" id="name" placeholder="Введите имя">
-<button class="smallbtn" onclick="login()">Войти</button>
+<button class="btn" onclick="saveName()">Сохранить имя</button>
+
+<input type="file" id="avatar" accept="image/*" onchange="loadAvatar()">
+<img id="photo" src="">
 </div>
 
 <div class="card">
 💬 Комментарии
 <input type="text" id="commentText" placeholder="Написать комментарий">
-<button class="smallbtn" onclick="addComment()">Отправить</button>
+<button class="btn" onclick="addComment()">Отправить</button>
 <div id="comments"></div>
 </div>
 
 <div class="card">
-👥 Подписчики: <span id="subs">128</span><br><br>
-<button class="smallbtn" onclick="subscribe()">Подписаться</button>
-</div>
-
-<div class="card">
-📢 Реклама  
-Здесь может быть ваш баннер
+👥 Подписчики: <span id="subs">0</span>
+<button class="btn" onclick="subscribe()">Подписаться</button>
 </div>
 
 <div class="card">
 👀 Онлайн сейчас: <span id="online"></span>
 </div>
 
-<button class="smallbtn" onclick="document.body.classList.toggle('dark')">
-🌙 Тёмная тема
-</button>
-
-<footer>
-Создано мной 😎
-</footer>
+<button class="btn" onclick="toggleTheme()">🌙 Тёмная тема</button>
 
 </div>
 
 <script>
-function login(){
+function saveName(){
 let name=document.getElementById("name").value;
-if(name!=""){
+localStorage.setItem("username",name);
 document.getElementById("user").innerText=name;
-}
 }
 
 function addComment(){
 let text=document.getElementById("commentText").value;
 if(text!=""){
-let div=document.createElement("div");
-div.className="comment";
-div.innerText=text;
-document.getElementById("comments").appendChild(div);
+let comments=JSON.parse(localStorage.getItem("comments"))||[];
+comments.push(text);
+localStorage.setItem("comments",JSON.stringify(comments));
+showComments();
 document.getElementById("commentText").value="";
 }
 }
 
-function subscribe(){
-let count=document.getElementById("subs");
-count.innerText=parseInt(count.innerText)+1;
+function showComments(){
+let comments=JSON.parse(localStorage.getItem("comments"))||[];
+let box=document.getElementById("comments");
+box.innerHTML="";
+comments.forEach(c=>{
+box.innerHTML+=`<div class="comment">${c}</div>`;
+});
 }
 
-document.getElementById("online").innerText=Math.floor(Math.random()*20)+3;
+function subscribe(){
+let n=parseInt(localStorage.getItem("subs"))||0;
+n++;
+localStorage.setItem("subs",n);
+document.getElementById("subs").innerText=n;
+}
+
+function toggleTheme(){
+document.body.classList.toggle("dark");
+localStorage.setItem("theme",
+document.body.classList.contains("dark")?"dark":"light");
+}
+
+function loadAvatar(){
+let file=document.getElementById("avatar").files[0];
+let reader=new FileReader();
+reader.onload=function(){
+localStorage.setItem("avatar",reader.result);
+document.getElementById("photo").src=reader.result;
+}
+reader.readAsDataURL(file);
+}
+
+window.onload=function(){
+document.getElementById("user").innerText=
+localStorage.getItem("username")||"Гость";
+
+document.getElementById("subs").innerText=
+localStorage.getItem("subs")||0;
+
+if(localStorage.getItem("theme")=="dark"){
+document.body.classList.add("dark");
+}
+
+document.getElementById("photo").src=
+localStorage.getItem("avatar")||"";
+
+document.getElementById("online").innerText=
+Math.floor(Math.random()*20)+5;
+
+showComments();
+}
 </script>
 
 </body>
