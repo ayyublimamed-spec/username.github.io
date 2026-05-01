@@ -12,27 +12,23 @@ body{
 font-family:Arial,sans-serif;
 background:linear-gradient(135deg,#4facfe,#00f2fe);
 color:white;
+padding:20px;
 text-align:center;
 transition:0.4s;
-overflow-x:hidden;
 }
 
-.dark{
-background:#111;
-}
+.dark{background:#111;}
 
 .container{
-max-width:520px;
+max-width:540px;
 margin:auto;
-padding:25px 18px;
-animation:fadeIn 1.5s;
 }
 
 .logo{
 font-size:38px;
 font-weight:bold;
-margin-bottom:15px;
-animation:slideDown 1.2s;
+margin-bottom:20px;
+animation:fade 1s;
 }
 
 .card{
@@ -40,76 +36,67 @@ background:rgba(255,255,255,0.18);
 padding:18px;
 border-radius:16px;
 margin:15px 0;
-animation:up 1s;
+animation:up 0.8s;
 }
 
-.btn,a{
-display:block;
+input,textarea{
 width:100%;
-margin:10px auto;
-padding:16px;
-font-size:20px;
-font-weight:bold;
-text-decoration:none;
-color:white;
-background:rgba(255,255,255,0.18);
+padding:12px;
+margin-top:10px;
 border:none;
-border-radius:14px;
-cursor:pointer;
-transition:0.3s;
-animation:up 1.2s;
+border-radius:10px;
+font-size:16px;
 }
 
-.btn:hover,a:hover{
-transform:scale(1.04);
-background:rgba(255,255,255,0.28);
-}
+textarea{height:90px;resize:none;}
 
-input{
+button,a{
 width:100%;
+display:block;
 padding:14px;
 margin-top:10px;
 border:none;
-border-radius:10px;
+border-radius:12px;
+font-size:18px;
+cursor:pointer;
+text-decoration:none;
+color:white;
+background:rgba(255,255,255,0.18);
+}
+
+.post{
+background:rgba(255,255,255,0.14);
+padding:15px;
+border-radius:14px;
+margin-top:12px;
+text-align:left;
 }
 
 .comment{
-background:rgba(255,255,255,0.12);
-padding:10px;
-margin-top:10px;
+background:rgba(255,255,255,0.10);
+padding:8px;
 border-radius:10px;
+margin-top:8px;
+}
+
+.chatmsg{
+background:rgba(255,255,255,0.14);
+padding:10px;
+border-radius:12px;
+margin-top:8px;
 text-align:left;
-animation:fadeIn 0.6s;
 }
 
-img{
-width:90px;
-height:90px;
-border-radius:50%;
-object-fit:cover;
-margin-top:10px;
-animation:pulse 2s infinite;
-}
+.small{font-size:14px;opacity:0.8;margin-top:8px;}
 
-@keyframes fadeIn{
+@keyframes fade{
 from{opacity:0;}
 to{opacity:1;}
 }
 
-@keyframes slideDown{
-from{transform:translateY(-40px);opacity:0;}
-to{transform:translateY(0);opacity:1;}
-}
-
 @keyframes up{
-from{transform:translateY(30px);opacity:0;}
-to{transform:translateY(0);opacity:1;}
-}
-
-@keyframes pulse{
-0%{transform:scale(1);}
-50%{transform:scale(1.08);}
-100%{transform:scale(1);}
+from{opacity:0;transform:translateY(20px);}
+to{opacity:1;transform:translateY(0);}
 }
 </style>
 </head>
@@ -120,110 +107,131 @@ to{transform:translateY(0);opacity:1;}
 
 <div class="logo">🚀 MY BRAND</div>
 
-<a href="study.html">📚 Учёба</a>
-<a href="tips.html">💡 Советы</a>
-<a href="life.html">🔥 Лайфхаки</a>
-
 <div class="card">
-👤 Профиль  
+<h2>🔐 Регистрация / Вход</h2>
+<input type="text" id="name" placeholder="Имя">
+<input type="password" id="pass" placeholder="Пароль">
+<button onclick="login()">Войти</button>
 <p id="user">Гость</p>
-<input type="text" id="name" placeholder="Введите имя">
-<button class="btn" onclick="saveName()">Сохранить имя</button>
-
-<input type="file" id="avatar" accept="image/*" onchange="loadAvatar()">
-<img id="photo" src="">
 </div>
 
 <div class="card">
-💬 Комментарии
-<input type="text" id="commentText" placeholder="Написать комментарий">
-<button class="btn" onclick="addComment()">Отправить</button>
-<div id="comments"></div>
+<h2>📸 Создать пост</h2>
+<textarea id="postText" placeholder="Что нового?"></textarea>
+<button onclick="addPost()">Опубликовать</button>
+<div id="posts"></div>
 </div>
 
 <div class="card">
-👥 Подписчики: <span id="subs">0</span>
-<button class="btn" onclick="subscribe()">Подписаться</button>
+<h2>💬 Чат</h2>
+<input type="text" id="chatInput" placeholder="Сообщение">
+<button onclick="sendMsg()">Отправить</button>
+<div id="chat"></div>
 </div>
 
 <div class="card">
-👀 Онлайн сейчас: <span id="online"></span>
+<h2>🛠 Админ-панель</h2>
+<button onclick="clearPosts()">Удалить посты</button>
+<button onclick="clearChat()">Очистить чат</button>
 </div>
 
-<button class="btn" onclick="toggleTheme()">🌙 Тёмная тема</button>
+<div class="card">
+<h2>👥 Подписчики</h2>
+<p><span id="subs">0</span></p>
+<button onclick="sub()">Подписаться</button>
+</div>
+
+<div class="card">
+<h2>📢 Реклама</h2>
+<p>Здесь может быть ваша реклама</p>
+</div>
+
+<div class="card">
+<h2>👀 Онлайн</h2>
+<p id="online"></p>
+</div>
+
+<button onclick="theme()">🌙 Тёмная тема</button>
 
 </div>
 
 <script>
-function saveName(){
-let name=document.getElementById("name").value;
-localStorage.setItem("username",name);
-document.getElementById("user").innerText=name;
+let posts=JSON.parse(localStorage.getItem("posts"))||[];
+let chat=JSON.parse(localStorage.getItem("chat"))||[];
+
+function login(){
+let n=document.getElementById("name").value||"Гость";
+localStorage.setItem("user",n);
+document.getElementById("user").innerText=n;
 }
 
-function addComment(){
-let text=document.getElementById("commentText").value;
-if(text!=""){
-let comments=JSON.parse(localStorage.getItem("comments"))||[];
-comments.push(text);
-localStorage.setItem("comments",JSON.stringify(comments));
-showComments();
-document.getElementById("commentText").value="";
+function addPost(){
+let t=document.getElementById("postText").value;
+if(t!=""){
+posts.unshift(t);
+localStorage.setItem("posts",JSON.stringify(posts));
+showPosts();
+document.getElementById("postText").value="";
 }
 }
 
-function showComments(){
-let comments=JSON.parse(localStorage.getItem("comments"))||[];
-let box=document.getElementById("comments");
+function showPosts(){
+let box=document.getElementById("posts");
 box.innerHTML="";
-comments.forEach(c=>{
-box.innerHTML+=`<div class="comment">${c}</div>`;
+posts.forEach(p=>{
+box.innerHTML+=`<div class="post">${p}<div class="small">❤️ 0 лайков</div></div>`;
 });
 }
 
-function subscribe(){
-let n=parseInt(localStorage.getItem("subs"))||0;
-n++;
-localStorage.setItem("subs",n);
-document.getElementById("subs").innerText=n;
+function sendMsg(){
+let t=document.getElementById("chatInput").value;
+if(t!=""){
+chat.push(t);
+localStorage.setItem("chat",JSON.stringify(chat));
+showChat();
+document.getElementById("chatInput").value="";
+}
 }
 
-function toggleTheme(){
+function showChat(){
+let box=document.getElementById("chat");
+box.innerHTML="";
+chat.forEach(m=>{
+box.innerHTML+=`<div class="chatmsg">${m}</div>`;
+});
+}
+
+function clearPosts(){
+posts=[];
+localStorage.setItem("posts","[]");
+showPosts();
+}
+
+function clearChat(){
+chat=[];
+localStorage.setItem("chat","[]");
+showChat();
+}
+
+function sub(){
+let s=parseInt(localStorage.getItem("subs"))||0;
+s++;
+localStorage.setItem("subs",s);
+document.getElementById("subs").innerText=s;
+}
+
+function theme(){
 document.body.classList.toggle("dark");
-localStorage.setItem("theme",
-document.body.classList.contains("dark")?"dark":"light");
-}
-
-function loadAvatar(){
-let file=document.getElementById("avatar").files[0];
-let reader=new FileReader();
-reader.onload=function(){
-localStorage.setItem("avatar",reader.result);
-document.getElementById("photo").src=reader.result;
-}
-reader.readAsDataURL(file);
 }
 
 window.onload=function(){
-document.getElementById("user").innerText=
-localStorage.getItem("username")||"Гость";
-
-document.getElementById("subs").innerText=
-localStorage.getItem("subs")||0;
-
-if(localStorage.getItem("theme")=="dark"){
-document.body.classList.add("dark");
-}
-
-document.getElementById("photo").src=
-localStorage.getItem("avatar")||"";
-
-document.getElementById("online").innerText=
-Math.floor(Math.random()*20)+5;
-
-showComments();
+document.getElementById("user").innerText=localStorage.getItem("user")||"Гость";
+document.getElementById("subs").innerText=localStorage.getItem("subs")||0;
+document.getElementById("online").innerText=Math.floor(Math.random()*25)+5+" пользователей";
+showPosts();
+showChat();
 }
 </script>
 
 </body>
-</html>
+     </html>
