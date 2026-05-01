@@ -19,6 +19,7 @@ color:white;
 padding:20px;
 text-align:center;
 transition:0.4s;
+user-select:none;
 }
 
 .dark{
@@ -27,7 +28,7 @@ color:white;
 }
 
 .container{
-max-width:500px;
+max-width:520px;
 margin:auto;
 }
 
@@ -42,6 +43,7 @@ background:rgba(255,255,255,0.18);
 padding:18px;
 border-radius:16px;
 margin:15px 0;
+backdrop-filter:blur(8px);
 }
 
 input,textarea{
@@ -51,6 +53,7 @@ margin-top:10px;
 border:none;
 border-radius:10px;
 font-size:16px;
+outline:none;
 }
 
 textarea{
@@ -72,6 +75,12 @@ font-size:18px;
 cursor:pointer;
 background:rgba(255,255,255,0.18);
 color:white;
+transition:0.3s;
+}
+
+button:hover{
+background:rgba(255,255,255,0.30);
+transform:scale(1.02);
 }
 
 .post,.chatmsg{
@@ -80,6 +89,7 @@ padding:12px;
 border-radius:12px;
 margin-top:10px;
 text-align:left;
+word-break:break-word;
 }
 
 .small{
@@ -87,25 +97,30 @@ font-size:14px;
 opacity:0.8;
 margin-top:6px;
 }
+
+.footer{
+margin-top:20px;
+font-size:14px;
+opacity:0.8;
+}
 </style>
 </head>
 
-<body onload="checkAdmin()">
+<body>
 
 <div class="container">
 
 <div class="logo">🚀 MY BRAND</div>
 
 <div class="card">
-<h2>🔐 Регистрация / Вход</h2>
-<input type="text" id="name" placeholder="Имя">
-<input type="password" id="pass" placeholder="Пароль">
+<h2>🔐 Вход</h2>
+<input type="text" id="name" placeholder="Введите имя">
 <button onclick="login()">Войти</button>
 <p id="user">Гость</p>
 </div>
 
 <div class="card">
-<h2>📝 Создать пост</h2>
+<h2>📝 Посты</h2>
 <textarea id="postText" placeholder="Что нового?"></textarea>
 <button onclick="addPost()">Опубликовать</button>
 <div id="posts"></div>
@@ -118,33 +133,42 @@ margin-top:6px;
 <div id="chat"></div>
 </div>
 
-<div class="card admin">
-<h2>🛠 Админ-панель</h2>
-<button onclick="clearPosts()">Удалить посты</button>
-<button onclick="clearChat()">Очистить чат</button>
-</div>
-
 <div class="card">
-<h2>📢 Подписчики</h2>
+<h2>👥 Подписчики</h2>
 <p><span id="subs">0</span></p>
 <button onclick="sub()">Подписаться</button>
 </div>
 
 <div class="card">
-<h2>📢 Реклама</h2>
-<p>Здесь может быть ваша реклама</p>
+<h2>👀 Онлайн</h2>
+<p id="online">0 пользователей</p>
 </div>
 
 <div class="card">
-<h2>👀 Онлайн</h2>
-<p id="online"></p>
+<h2>🌙 Настройки</h2>
+<button onclick="theme()">Тёмный режим</button>
 </div>
 
-<button onclick="theme()">🌙 Тёмная тема</button>
+<div class="card">
+<h2>📚 Разделы</h2>
 
-<a href="life.html"><button>Лайфхаки</button></a>
-<a href="tips.html"><button>Советы</button></a>
-<a href="study.html"><button>Учёба</button></a>
+<a href="life.html">
+<button>🔥 Лайфхаки</button>
+</a>
+
+<a href="tips.html">
+<button>💡 Советы</button>
+</a>
+
+<a href="study.html">
+<button>📖 Учёба</button>
+</a>
+
+</div>
+
+<div class="footer">
+MY BRAND © 2026
+</div>
 
 </div>
 
