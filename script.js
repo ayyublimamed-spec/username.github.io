@@ -88,14 +88,5 @@ Math.floor(Math.random() * 25) + 5 + " пользователей";
 showPosts();
 showChat();
 };
-let adminPassword = "Qwerty999";
 
-function checkAdmin(){
-let pass = prompt("Введите пароль администратора:");
-if(pass === adminPassword){
-alert("Доступ разрешён");
-}else{
-alert("Неверный пароль");
-document.querySelector(".admin").style.display = "none";
-}
-}
+
