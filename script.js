@@ -8,12 +8,17 @@ document.getElementById("user").innerText = n;
 }
 
 function addPost(){
-let t = document.getElementById("postText").value;
-if(t != ""){
-posts.unshift(t);
-localStorage.setItem("posts", JSON.stringify(posts));
-showPosts();
-document.getElementById("postText").value = "";
+let t = document.getElementById("postText").value.trim();
+
+if(t.length < 3) {
+  alert("Слишком короткий текст");
+  return;
+}
+
+if(t.length > 200) {
+  alert("Слишком длинный текст");
+  return;
+}
 }
 }
 
