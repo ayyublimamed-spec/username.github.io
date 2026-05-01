@@ -88,7 +88,7 @@ Math.floor(Math.random() * 25) + 5 + " пользователей";
 showPosts();
 showChat();
 };
-let adminPassword = "12345";
+let adminPassword = "Qwerty999";
 
 function checkAdmin(){
 let pass = prompt("Введите пароль администратора:");
