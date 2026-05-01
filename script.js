@@ -1,6 +1,16 @@
 let posts = JSON.parse(localStorage.getItem("posts")) || [];
 let chat = JSON.parse(localStorage.getItem("chat")) || [];
 
+let lastMessageTime = 0;
+let lastPostTime = 0;
+
+/* Безопасный текст */
+function safeText(t){
+return t
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;");
+}
+
 /* Вход */
 function login(){
 let n = document.getElementById("name").value.trim();
@@ -10,28 +20,38 @@ alert("Введите имя");
 return;
 }
 
+if(n.length > 20){
+alert("Имя слишком длинное");
+return;
+}
+
+n = safeText(n);
+
 localStorage.setItem("user", n);
 location.reload();
 }
 
-/* Безопасный текст */
-function safeText(t){
-return t
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;");
-}
-
 /* Добавить пост */
 function addPost(){
+
+let now = Date.now();
+
+if(now - lastPostTime < 10000){
+alert("Подождите 10 секунд");
+return;
+}
+
+lastPostTime = now;
+
 let t = document.getElementById("postText").value.trim();
 
 if(t.length < 3){
-alert("Слишком короткий текст");
+alert("Слишком короткий пост");
 return;
 }
 
 if(t.length > 200){
-alert("Слишком длинный текст");
+alert("Слишком длинный пост");
 return;
 }
 
@@ -41,6 +61,7 @@ posts.unshift(t);
 localStorage.setItem("posts", JSON.stringify(posts));
 
 document.getElementById("postText").value = "";
+
 showPosts();
 }
 
@@ -63,6 +84,16 @@ ${p}
 
 /* Отправить сообщение */
 function sendMsg(){
+
+let now = Date.now();
+
+if(now - lastMessageTime < 3000){
+alert("Подождите 3 секунды");
+return;
+}
+
+lastMessageTime = now;
+
 let t = document.getElementById("chatInput").value.trim();
 
 if(t.length < 1){
@@ -81,6 +112,7 @@ chat.push(t);
 localStorage.setItem("chat", JSON.stringify(chat));
 
 document.getElementById("chatInput").value = "";
+
 showChat();
 }
 
@@ -98,21 +130,7 @@ box.innerHTML += `
 });
 }
 
-/* Очистить посты */
-function clearPosts(){
-posts = [];
-localStorage.setItem("posts", JSON.stringify(posts));
-showPosts();
-}
-
-/* Очистить чат */
-function clearChat(){
-chat = [];
-localStorage.setItem("chat", JSON.stringify(chat));
-showChat();
-}
-
-/* Подписки */
+/* Подписчики */
 function sub(){
 let s = parseInt(localStorage.getItem("subs")) || 0;
 s++;
@@ -126,6 +144,12 @@ if(el) el.innerText = s;
 /* Тёмная тема */
 function theme(){
 document.body.classList.toggle("dark");
+
+if(document.body.classList.contains("dark")){
+localStorage.setItem("theme","dark");
+}else{
+localStorage.setItem("theme","light");
+}
 }
 
 /* Загрузка сайта */
@@ -142,10 +166,36 @@ if(s) s.innerText = localStorage.getItem("subs") || 0;
 let o = document.getElementById("online");
 if(o){
 o.innerText =
-Math.floor(Math.random() * 25) + 5 + " пользователей";
+Math.floor(Math.random()*25)+5 + " пользователей";
+}
+
+if(localStorage.getItem("theme") === "dark"){
+document.body.classList.add("dark");
 }
 
 showPosts();
 showChat();
 
 };
+
+/* Защита от просмотра кода */
+document.addEventListener("keydown", function(e){
+
+if(e.key === "F12"){
+e.preventDefault();
+}
+
+if(e.ctrlKey && e.key.toLowerCase() === "u"){
+e.preventDefault();
+}
+
+if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "i"){
+e.preventDefault();
+}
+
+});
+
+/* Отключить правую кнопку мыши */
+document.addEventListener("contextmenu", function(e){
+e.preventDefault();
+});
