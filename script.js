@@ -31,7 +31,7 @@ localStorage.setItem("user", n);
 location.reload();
 }
 
-/* Добавить пост */
+/* Пост */
 function addPost(){
 
 let now = Date.now();
@@ -72,7 +72,7 @@ if(!box) return;
 
 box.innerHTML = "";
 
-posts.forEach(p => {
+posts.forEach(p=>{
 box.innerHTML += `
 <div class="post">
 ${p}
@@ -82,7 +82,7 @@ ${p}
 });
 }
 
-/* Отправить сообщение */
+/* Чат */
 function sendMsg(){
 
 let now = Date.now();
@@ -123,22 +123,21 @@ if(!box) return;
 
 box.innerHTML = "";
 
-chat.forEach(m => {
+chat.forEach(m=>{
 box.innerHTML += `
 <div class="chatmsg">${m}</div>
 `;
 });
 }
 
-/* Подписчики */
+/* Подписка */
 function sub(){
 let s = parseInt(localStorage.getItem("subs")) || 0;
 s++;
 
 localStorage.setItem("subs", s);
 
-let el = document.getElementById("subs");
-if(el) el.innerText = s;
+document.getElementById("subs").innerText = s;
 }
 
 /* Тёмная тема */
@@ -152,22 +151,17 @@ localStorage.setItem("theme","light");
 }
 }
 
-/* Загрузка сайта */
+/* Загрузка */
 window.onload = function(){
 
-let user = localStorage.getItem("user") || "Гость";
+document.getElementById("user").innerText =
+localStorage.getItem("user") || "Гость";
 
-let u = document.getElementById("user");
-if(u) u.innerText = user;
+document.getElementById("subs").innerText =
+localStorage.getItem("subs") || 0;
 
-let s = document.getElementById("subs");
-if(s) s.innerText = localStorage.getItem("subs") || 0;
-
-let o = document.getElementById("online");
-if(o){
-o.innerText =
+document.getElementById("online").innerText =
 Math.floor(Math.random()*25)+5 + " пользователей";
-}
 
 if(localStorage.getItem("theme") === "dark"){
 document.body.classList.add("dark");
@@ -175,27 +169,21 @@ document.body.classList.add("dark");
 
 showPosts();
 showChat();
-
 };
 
-/* Защита от просмотра кода */
+/* Защита */
 document.addEventListener("keydown", function(e){
 
-if(e.key === "F12"){
-e.preventDefault();
-}
+if(e.key === "F12") e.preventDefault();
 
-if(e.ctrlKey && e.key.toLowerCase() === "u"){
+if(e.ctrlKey && e.key.toLowerCase() === "u")
 e.preventDefault();
-}
 
-if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "i"){
+if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "i")
 e.preventDefault();
-}
 
 });
 
-/* Отключить правую кнопку мыши */
 document.addEventListener("contextmenu", function(e){
 e.preventDefault();
 });
