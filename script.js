@@ -38,6 +38,17 @@ ${p}
 
 function sendMsg(){
 let t = document.getElementById("chatInput").value;
+  t = t.trim();
+
+if(t.length < 1){
+alert("Пустое сообщение");
+return;
+}
+
+if(t.length > 100){
+alert("Слишком длинное сообщение");
+return;
+}
 if(t != ""){
 chat.push(t);
 localStorage.setItem("chat", JSON.stringify(chat));
