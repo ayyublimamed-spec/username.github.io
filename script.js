@@ -1,29 +1,54 @@
 let posts = JSON.parse(localStorage.getItem("posts")) || [];
 let chat = JSON.parse(localStorage.getItem("chat")) || [];
 
+/* Вход */
 function login(){
-let n = document.getElementById("name").value || "Гость";
-localStorage.setItem("user", n);
-document.getElementById("user").innerText = n;
+let n = document.getElementById("name").value.trim();
+
+if(n.length < 2){
+alert("Введите имя");
+return;
 }
 
+localStorage.setItem("user", n);
+location.reload();
+}
+
+/* Безопасный текст */
+function safeText(t){
+return t
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;");
+}
+
+/* Добавить пост */
 function addPost(){
 let t = document.getElementById("postText").value.trim();
 
-if(t.length < 3) {
-  alert("Слишком короткий текст");
-  return;
+if(t.length < 3){
+alert("Слишком короткий текст");
+return;
 }
 
-if(t.length > 200) {
-  alert("Слишком длинный текст");
-  return;
-}
-}
+if(t.length > 200){
+alert("Слишком длинный текст");
+return;
 }
 
+t = safeText(t);
+
+posts.unshift(t);
+localStorage.setItem("posts", JSON.stringify(posts));
+
+document.getElementById("postText").value = "";
+showPosts();
+}
+
+/* Показать посты */
 function showPosts(){
 let box = document.getElementById("posts");
+if(!box) return;
+
 box.innerHTML = "";
 
 posts.forEach(p => {
@@ -36,9 +61,9 @@ ${p}
 });
 }
 
+/* Отправить сообщение */
 function sendMsg(){
-let t = document.getElementById("chatInput").value;
-  t = t.trim();
+let t = document.getElementById("chatInput").value.trim();
 
 if(t.length < 1){
 alert("Пустое сообщение");
@@ -49,16 +74,21 @@ if(t.length > 100){
 alert("Слишком длинное сообщение");
 return;
 }
-if(t != ""){
+
+t = safeText(t);
+
 chat.push(t);
 localStorage.setItem("chat", JSON.stringify(chat));
-showChat();
+
 document.getElementById("chatInput").value = "";
-}
+showChat();
 }
 
+/* Показать чат */
 function showChat(){
 let box = document.getElementById("chat");
+if(!box) return;
+
 box.innerHTML = "";
 
 chat.forEach(m => {
@@ -68,53 +98,54 @@ box.innerHTML += `
 });
 }
 
+/* Очистить посты */
 function clearPosts(){
 posts = [];
-localStorage.setItem("posts", "[]");
+localStorage.setItem("posts", JSON.stringify(posts));
 showPosts();
 }
 
+/* Очистить чат */
 function clearChat(){
 chat = [];
-localStorage.setItem("chat", "[]");
+localStorage.setItem("chat", JSON.stringify(chat));
 showChat();
 }
 
+/* Подписки */
 function sub(){
 let s = parseInt(localStorage.getItem("subs")) || 0;
 s++;
+
 localStorage.setItem("subs", s);
-document.getElementById("subs").innerText = s;
+
+let el = document.getElementById("subs");
+if(el) el.innerText = s;
 }
 
+/* Тёмная тема */
 function theme(){
 document.body.classList.toggle("dark");
 }
 
+/* Загрузка сайта */
 window.onload = function(){
-document.getElementById("user").innerText =
-localStorage.getItem("user") || "Гость";
 
-document.getElementById("subs").innerText =
-localStorage.getItem("subs") || 0;
+let user = localStorage.getItem("user") || "Гость";
 
-document.getElementById("online").innerText =
+let u = document.getElementById("user");
+if(u) u.innerText = user;
+
+let s = document.getElementById("subs");
+if(s) s.innerText = localStorage.getItem("subs") || 0;
+
+let o = document.getElementById("online");
+if(o){
+o.innerText =
 Math.floor(Math.random() * 25) + 5 + " пользователей";
+}
 
 showPosts();
 showChat();
+
 };
-document.addEventListener("keydown", function(e) {
-  if (e.key === "F12") e.preventDefault();
-
-  if (e.ctrlKey && e.key.toLowerCase() === "u")
-    e.preventDefault();
-
-  if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "i")
-    e.preventDefault();
-});
-
-document.addEventListener("contextmenu", function(e) {
-  e.preventDefault();
-});
-
