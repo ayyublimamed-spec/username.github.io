@@ -3,48 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Мой сайт</title>
+<title>My Brand</title>
 
 <style>
 body{
 margin:0;
-padding:0;
 font-family:Arial,sans-serif;
 text-align:center;
 background:linear-gradient(135deg,#4facfe,#00f2fe);
 color:white;
-overflow-x:hidden;
+transition:0.4s;
+}
+
+.dark{
+background:#111;
+color:white;
 }
 
 .container{
 padding:30px 20px;
-animation:fadeIn 2s;
 }
 
-h1{
-font-size:42px;
+.logo{
+font-size:38px;
+font-weight:bold;
 margin-bottom:10px;
-animation:slideDown 1.5s;
-}
-
-p{
-font-size:20px;
-margin-bottom:25px;
-}
-
-img{
-width:180px;
-border-radius:50%;
-margin:20px 0;
-box-shadow:0 10px 25px rgba(0,0,0,0.2);
-animation:zoom 2s infinite alternate;
 }
 
 .btn{
 display:block;
 width:80%;
 max-width:320px;
-margin:15px auto;
+margin:12px auto;
 padding:18px;
 font-size:22px;
 font-weight:bold;
@@ -52,39 +42,43 @@ text-decoration:none;
 color:white;
 background:rgba(255,255,255,0.18);
 border-radius:15px;
-backdrop-filter:blur(8px);
 transition:0.3s;
 }
 
 .btn:hover{
 transform:scale(1.05);
-background:rgba(255,255,255,0.3);
 }
 
-.counter{
-margin-top:30px;
-font-size:22px;
-font-weight:bold;
+.card{
+background:rgba(255,255,255,0.18);
+margin:20px auto;
+padding:20px;
+border-radius:18px;
+max-width:350px;
+}
+
+.chat{
+margin-top:20px;
+padding:15px;
+background:rgba(255,255,255,0.18);
+border-radius:15px;
+max-width:350px;
+margin-left:auto;
+margin-right:auto;
+}
+
+.theme{
+margin-top:20px;
+padding:12px 20px;
+font-size:18px;
+border:none;
+border-radius:10px;
+cursor:pointer;
 }
 
 footer{
 margin-top:30px;
-font-size:18px;
-}
-
-@keyframes fadeIn{
-from{opacity:0;}
-to{opacity:1;}
-}
-
-@keyframes slideDown{
-from{transform:translateY(-50px);opacity:0;}
-to{transform:translateY(0);opacity:1;}
-}
-
-@keyframes zoom{
-from{transform:scale(1);}
-to{transform:scale(1.08);}
+padding-bottom:30px;
 }
 </style>
 </head>
@@ -93,21 +87,32 @@ to{transform:scale(1.08);}
 
 <div class="container">
 
-<h1>Добро пожаловать!</h1>
-<p>Мой современный сайт 🔥</p>
+<div class="logo">🚀 MY BRAND</div>
 
-<img src="https://picsum.photos/300" alt="Фото">
+<p>Добро пожаловать на мой топ сайт</p>
 
 <a href="study.html" class="btn">📚 Учёба</a>
 <a href="tips.html" class="btn">💡 Советы</a>
 <a href="life.html" class="btn">🔥 Лайфхаки</a>
 
-<div class="counter">
-👀 Посетителей: 1247
+<div class="card">
+🔥 Сегодня новость: сайт обновлён до суперуровня!
 </div>
 
+<div class="card">
+👀 Сейчас онлайн: 7 человек
+</div>
+
+<div class="chat">
+💬 Чат скоро будет доступен...
+</div>
+
+<button class="theme" onclick="document.body.classList.toggle('dark')">
+🌙 Тёмная тема
+</button>
+
 <footer>
-Сайт создан мной 🚀
+Сделано мной 😎
 </footer>
 
 </div>
