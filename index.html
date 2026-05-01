@@ -6,7 +6,11 @@
 <title>MY BRAND</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
 body{
 font-family:Arial,sans-serif;
@@ -17,10 +21,13 @@ text-align:center;
 transition:0.4s;
 }
 
-.dark{background:#111;}
+.dark{
+background:#111 !important;
+color:white;
+}
 
 .container{
-max-width:540px;
+max-width:500px;
 margin:auto;
 }
 
@@ -28,7 +35,6 @@ margin:auto;
 font-size:38px;
 font-weight:bold;
 margin-bottom:20px;
-animation:fade 1s;
 }
 
 .card{
@@ -36,7 +42,6 @@ background:rgba(255,255,255,0.18);
 padding:18px;
 border-radius:16px;
 margin:15px 0;
-animation:up 0.8s;
 }
 
 input,textarea{
@@ -48,60 +53,44 @@ border-radius:10px;
 font-size:16px;
 }
 
-textarea{height:90px;resize:none;}
+textarea{
+height:90px;
+resize:none;
+}
 
 button,a{
-width:100%;
 display:block;
-padding:14px;
+width:100%;
 margin-top:10px;
+}
+
+button{
+padding:14px;
 border:none;
 border-radius:12px;
 font-size:18px;
 cursor:pointer;
-text-decoration:none;
-color:white;
 background:rgba(255,255,255,0.18);
+color:white;
 }
 
-.post{
+.post,.chatmsg{
 background:rgba(255,255,255,0.14);
-padding:15px;
-border-radius:14px;
-margin-top:12px;
-text-align:left;
-}
-
-.comment{
-background:rgba(255,255,255,0.10);
-padding:8px;
-border-radius:10px;
-margin-top:8px;
-}
-
-.chatmsg{
-background:rgba(255,255,255,0.14);
-padding:10px;
+padding:12px;
 border-radius:12px;
-margin-top:8px;
+margin-top:10px;
 text-align:left;
 }
 
-.small{font-size:14px;opacity:0.8;margin-top:8px;}
-
-@keyframes fade{
-from{opacity:0;}
-to{opacity:1;}
-}
-
-@keyframes up{
-from{opacity:0;transform:translateY(20px);}
-to{opacity:1;transform:translateY(0);}
+.small{
+font-size:14px;
+opacity:0.8;
+margin-top:6px;
 }
 </style>
 </head>
 
-<body>
+<body onload="checkAdmin()">
 
 <div class="container">
 
@@ -116,7 +105,7 @@ to{opacity:1;transform:translateY(0);}
 </div>
 
 <div class="card">
-<h2>📸 Создать пост</h2>
+<h2>📝 Создать пост</h2>
 <textarea id="postText" placeholder="Что нового?"></textarea>
 <button onclick="addPost()">Опубликовать</button>
 <div id="posts"></div>
@@ -136,7 +125,7 @@ to{opacity:1;transform:translateY(0);}
 </div>
 
 <div class="card">
-<h2>👥 Подписчики</h2>
+<h2>📢 Подписчики</h2>
 <p><span id="subs">0</span></p>
 <button onclick="sub()">Подписаться</button>
 </div>
@@ -152,14 +141,14 @@ to{opacity:1;transform:translateY(0);}
 </div>
 
 <button onclick="theme()">🌙 Тёмная тема</button>
+
 <a href="life.html"><button>Лайфхаки</button></a>
 <a href="tips.html"><button>Советы</button></a>
 <a href="study.html"><button>Учёба</button></a>
+
 </div>
 
-<script>
 <script src="script.js"></script>
-</script>
 
-<body onload="checkAdmin()">
-     </html>
+</body>
+</html>
